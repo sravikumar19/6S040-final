@@ -10,6 +10,7 @@ class _densenet_base(nn.Module):
     '''
         Add splitter / predictor support for the densenet in torchvision.models
     '''
+
     def __init__(self,
                  include_label: int,
                  num_classes: int,
@@ -38,7 +39,7 @@ class _densenet_base(nn.Module):
         '''
         x = self.densenet.features(x)
         x = F.relu(x, inplace=True)
-        x = F.adaptifeaturesve_avg_pool2d(x, (1, 1))
+        x = F.adaptive_avg_pool2d(x, (1, 1))
         x = torch.flatten(x, 1)
 
         if self.include_label > 0:
@@ -79,4 +80,3 @@ class densenet201(_densenet_base):
     def __init__(self, **kwargs):
         super().__init__(**kwargs, model_name='densenet201',
                          weight_name='DenseNet201_Weights')
-

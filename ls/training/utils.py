@@ -29,13 +29,16 @@ def compute_y_given_z_loss(mask, y, no_grad=False):
       conditional marginal p(y | z = 1) need to match p(y | z = 0)
     '''
     # get num of classes
-    num_classes = len(torch.unique(y))
-
+    # num_classes = len(torch.unique(y))
+    num_classes = 2
     y_given_train, y_given_test, y_original = [], [], []
 
     for i in range(num_classes):
-        y_i = (y == i).float()
-
+        # y_i = (y == i).float()
+        if i == 0:
+            y_i = (torch.sum(y, dim=-1) < 1).float()
+        else:
+            y_i = (torch.sum(y, dim=-1) >= 1).float()
         y_given_train.append(torch.sum(y_i * mask) / torch.sum(mask))
         y_given_test.append(torch.sum(y_i * (1 - mask)) / torch.sum(1 - mask))
         y_original.append(torch.sum(y_i) / len(y))
@@ -55,4 +58,3 @@ def compute_y_given_z_loss(mask, y, no_grad=False):
         loss_y_marginal = loss_y_marginal.item()
 
     return loss_y_marginal, y_given_train.tolist()[-1], y_given_test.tolist()[-1]
-

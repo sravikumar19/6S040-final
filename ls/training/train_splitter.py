@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, Subset, RandomSampler, DataLoader
+from torchmetrics.classification import BinaryAccuracy
 
 from ls.utils.optim import optim_step
 from ls.utils.print import print
@@ -57,9 +58,13 @@ def train_splitter_one_epoch(splitter, predictor, total_loader, test_loader,
         logit = splitter(x, y)
         with torch.no_grad():
             out = predictor(x)
-            correct = (torch.argmax(out, dim=1) == y).long()
+            # correct = (torch.argmax(out, dim=1) == y).long()
+            metric = BinaryAccuracy(multidim_average='samplewise')
+            accuracy = metric(torch.sigmoid(out), y)
+            correct = accuracy > 0.5.long()
 
         loss_gap = F.cross_entropy(logit, correct)
+
         stats['loss_gap'].append(loss_gap.item())
 
         # compute overall loss and update the parameters
@@ -130,7 +135,7 @@ def train_splitter(splitter: nn.Module,
 
         loss_list.append(cur_loss)
 
-        progress_message =  f'train_splitter ep {ep}, loss {cur_loss:.4f}'
+        progress_message = f'train_splitter ep {ep}, loss {cur_loss:.4f}'
         print(progress_message, end="\r", flush=True, time=True)
 
         ep += 1

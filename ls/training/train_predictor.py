@@ -25,7 +25,7 @@ def train_predictor(data: Dataset = None,
     # We will monitor the performance on the validation data to prevent
     # memorization.
     train_size = int(len(train_data) // 3 * 2)
-    val_size   = len(train_data) - train_size
+    val_size = len(train_data) - train_size
     train_data, val_data = random_split(train_data, [train_size, val_size])
 
     train_loader = DataLoader(
@@ -61,14 +61,15 @@ def train_predictor(data: Dataset = None,
 
             out = predictor(x)
 
-            loss = F.cross_entropy(out, y)
+            #loss = F.cross_entropy(out, y)
+            loss = F.binary_cross_entropy(torch.sigmoid(out), y)
 
             optim_step(predictor, opt, loss, cfg)
 
         val_acc = test_predictor(predictor=predictor, cfg=cfg,
                                  loader=val_loader)
 
-        progress_message =  f'train predictor ep {ep}, val_acc {val_acc:.2f}'
+        progress_message = f'train predictor ep {ep}, val_acc {val_acc:.2f}'
         print(progress_message, end="\r", flush=True, time=True)
 
         if val_acc > best_val_score:

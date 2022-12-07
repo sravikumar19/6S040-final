@@ -4,3 +4,4 @@ from .CelebA import CelebA
 from .Waterbirds import Waterbirds
 from .MNLI_bert_uncased import MNLI_bert_uncased
 from .BeerReviews import BeerReviews
+from .ChestXRay14 import ChestXRay14

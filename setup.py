@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'ls',
-    version = '1.0',
-    author = 'Yujia Bao',
-    author_email = 'bao@yujia.io',
-    packages = find_packages() + ['ls/configs'],
-    include_package_data = True,
-    description = 'Learning to Split for Automatic Bias Detection',
-    url = 'https://github.com/yujiabao/ls',
-    install_requires = [
+    name='ls',
+    version='1.0',
+    author='Yujia Bao',
+    author_email='bao@yujia.io',
+    packages=find_packages() + ['ls/configs'],
+    include_package_data=True,
+    description='Learning to Split for Automatic Bias Detection',
+    url='https://github.com/yujiabao/ls',
+    install_requires=[
         'numpy>=1.23.2',
         'PyYAML>=6.0',
         'rich>=12.5.1',
@@ -21,5 +21,7 @@ setup(
         'torchtext>=0.13.0',
         'tqdm>=4.64.0',
         'transformers>=4.21.2',
+        'torchmetrics>=0.11.0',
+        'pandas'
     ]
 )

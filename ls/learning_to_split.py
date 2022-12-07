@@ -47,7 +47,8 @@ def learning_to_split(data: Dataset,
 
     num_no_improvements = 0
 
-    best_gap = -1  # The bigger the gap, the better (more challenging) the split.
+    # The bigger the gap, the better (more challenging) the split.
+    best_gap = -1
     best_split = None
 
     splitter = ModelFactory.get_model(cfg, splitter=True)
