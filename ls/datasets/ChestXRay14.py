@@ -9,7 +9,7 @@ from ls.utils.print import print
 
 
 class ChestXRay14(Dataset):
-    def __init__(self, root: str, task: str = 'DIAGNOSIS'):
+    def __init__(self, task: str = 'DIAGNOSIS'):
         '''
             We use the ChestXRay Machine Learning Data Set in Google Cloud Storage. 
 

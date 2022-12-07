@@ -77,10 +77,22 @@ def split_data(data: Dataset = None,
     split_stats['test_ratio'] = len(test_indices) / len(total_mask) * 100
 
     # Label distribution
-    split_stats['train_y'] = dict(sorted(
-        Counter(total_y[train_indices].tolist()).items()))
-    split_stats['test_y'] = dict(sorted(
-        Counter(total_y[test_indices].tolist()).items()))
+    # split_stats['train_y'] = dict(sorted(
+    #     Counter(total_y[train_indices].tolist()).items()))
+    # split_stats['test_y'] = dict(sorted(
+    #     Counter(total_y[test_indices].tolist()).items()))
+
+    y_train_0 = int(
+        torch.sum((torch.sum(total_y[train_indices], dim=-1) < 1).float()))
+    y_train_1 = int(
+        torch.sum((torch.sum(total_y[train_indices], dim=-1) >= 1).float()))
+    split_stats['train_y'] = {0: y_train_0, 1: y_train_1}
+
+    y_test_0 = int(
+        torch.sum((torch.sum(total_y[test_indices], dim=-1) < 1).float()))
+    y_test_1 = int(
+        torch.sum((torch.sum(total_y[test_indices], dim=-1) >= 1).float()))
+    split_stats['test_y'] = {0: y_test_0, 1: y_test_1}
 
     print(" " * (20 + len(progress_message)), end="\r", time=False)
 
