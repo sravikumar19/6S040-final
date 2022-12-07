@@ -35,11 +35,13 @@ def split_data(data: Dataset = None,
             # Move the current batch onto the device
             x = x.to(cfg['device'])
             y = y.to(cfg['device'])
+            print('x', x.shape)
+            print('y', y.shape)
 
             # Split each batch into train split and test split
             if random_split:
                 # do random split at the start of ls
-                prob = torch.ones_like(y).unsqueeze(1)
+                prob = torch.ones_like(y[0]).unsqueeze(1)
                 prob = torch.cat([
                     prob * (1 - cfg['ratio']),  # test split prob
                     prob * cfg['ratio']  # train split prob
