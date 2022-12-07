@@ -35,8 +35,6 @@ def split_data(data: Dataset = None,
             # Move the current batch onto the device
             x = x.to(cfg['device'])
             y = y.to(cfg['device'])
-            print('x', x.shape, end="\r", time=True)
-            print('y', y.shape, end="\r", time=True)
 
             # Split each batch into train split and test split
             if random_split:
@@ -46,11 +44,9 @@ def split_data(data: Dataset = None,
                     prob * (1 - cfg['ratio']),  # test split prob
                     prob * cfg['ratio']  # train split prob
                 ], dim=1)
-                print('prob random', prob, prob.shape, end="\r", time=True)
             else:
                 logit = splitter(x, y)
                 prob = F.softmax(logit, dim=-1)
-                print('prob', prob, end="\r", time=True)
 
             # Sample the binary mask
             # 0: test split, 1: train split
@@ -68,7 +64,6 @@ def split_data(data: Dataset = None,
 
     # Gather the training indices (indices with mask = 1)
     # and the testing indices (indices with mask = 0)
-    print('total mask', total_mask, end="\r", time=False)
     train_indices = total_mask.nonzero().squeeze(1).tolist()
     test_indices = (1 - total_mask).nonzero().squeeze(1).tolist()
 
@@ -87,9 +82,9 @@ def split_data(data: Dataset = None,
     # split_stats['test_y'] = dict(sorted(
     #     Counter(total_y[test_indices].tolist()).items()))
 
-    print('total y', total_y, total_y.shape, end="\r", time=False)
-    print('train_indices', train_indices, end="\r", time=False)
-    print('test_indices', test_indices, end="\r", time=False)
+    # print('total y', total_y, total_y.shape, end="\r", time=False)
+    # print('train_indices', train_indices, end="\r", time=False)
+    # print('test_indices', test_indices, end="\r", time=False)
     y_train_0 = int(
         torch.sum((torch.sum(total_y[train_indices], dim=-1) < 1).float()))
 
