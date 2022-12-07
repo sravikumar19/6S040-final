@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import Dataset, Subset, DataLoader
 from sklearn.metrics import roc_auc_score
+from torchmetrics.classification import BinaryAccuracy
 
 
 def test_predictor(data: Dataset = None,
@@ -46,7 +47,10 @@ def test_predictor(data: Dataset = None,
             out = predictor(x)
 
             if cfg['metric'] == 'accuracy':
-                total['correct'].append((torch.argmax(out, dim=1) == y).cpu())
+                #total['correct'].append((torch.argmax(out, dim=1) == y).cpu())
+                metric = BinaryAccuracy(multidim_average='samplewise')
+                accuracy = metric(torch.sigmoid(out), y).cpu()
+                total['correct'].append(accuracy > 0.5)
 
             elif cfg['metric'] == 'roc_auc':
                 # Assume that y = 1 is positive

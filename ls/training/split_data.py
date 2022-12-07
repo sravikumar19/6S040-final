@@ -41,7 +41,7 @@ def split_data(data: Dataset = None,
             # Split each batch into train split and test split
             if random_split:
                 # do random split at the start of ls
-                prob = torch.ones_like(y[0]).unsqueeze(1)
+                prob = torch.ones_like(y[:, 1]).unsqueeze(1)
                 prob = torch.cat([
                     prob * (1 - cfg['ratio']),  # test split prob
                     prob * cfg['ratio']  # train split prob
@@ -49,7 +49,7 @@ def split_data(data: Dataset = None,
             else:
                 logit = splitter(x, y)
                 prob = F.softmax(logit, dim=-1)
-                print('prob')
+                print('prob', prob)
 
             # Sample the binary mask
             # 0: test split, 1: train split
