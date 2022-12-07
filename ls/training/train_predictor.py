@@ -62,7 +62,8 @@ def train_predictor(data: Dataset = None,
             out = predictor(x)
 
             #loss = F.cross_entropy(out, y)
-            loss = F.binary_cross_entropy(torch.sigmoid(out), y)
+            loss = F.binary_cross_entropy(
+                torch.sigmoid(out).float(), y.float())
 
             optim_step(predictor, opt, loss, cfg)
 
