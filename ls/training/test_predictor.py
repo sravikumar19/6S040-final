@@ -50,7 +50,7 @@ def test_predictor(data: Dataset = None,
                 #total['correct'].append((torch.argmax(out, dim=1) == y).cpu())
                 metric = BinaryAccuracy(multidim_average='samplewise')
                 accuracy = metric(torch.sigmoid(out), y).cpu()
-                total['correct'].append(accuracy > 0.5)
+                total['correct'].append(accuracy >= 0.5)
 
             elif cfg['metric'] == 'roc_auc':
                 # Assume that y = 1 is positive

@@ -61,7 +61,7 @@ def train_splitter_one_epoch(splitter, predictor, total_loader, test_loader,
             # correct = (torch.argmax(out, dim=1) == y).long()
             metric = BinaryAccuracy(multidim_average='samplewise')
             accuracy = metric(torch.sigmoid(out), y)
-            correct = accuracy > 0.5.long()
+            correct = (accuracy >= 0.5).long()
 
         loss_gap = F.cross_entropy(logit, correct)
 
