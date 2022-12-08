@@ -82,9 +82,9 @@ def split_data(data: Dataset = None,
     # split_stats['test_y'] = dict(sorted(
     #     Counter(total_y[test_indices].tolist()).items()))
 
-    # print('total y', total_y, total_y.shape, end="\r", time=False)
-    # print('train_indices', train_indices, end="\r", time=False)
-    # print('test_indices', test_indices, end="\r", time=False)
+    print('total y', total_y, total_y.shape, end="\r", time=False)
+    print('train_indices', len(train_indices), end="\r", time=False)
+    print('test_indices', len(test_indices), end="\r", time=False)
     y_train_0 = int(
         torch.sum((torch.sum(total_y[train_indices], dim=-1) < 1).float()))
 

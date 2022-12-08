@@ -43,6 +43,8 @@ def test_predictor(data: Dataset = None,
 
             x = x.to(cfg['device'])
             y = y.to(cfg['device'])
+            print('x', x.shape, end="\r", time=False)
+            print('y', y.shape, end="\r", time=False)
 
             out = predictor(x)
 
@@ -50,7 +52,8 @@ def test_predictor(data: Dataset = None,
                 #total['correct'].append((torch.argmax(out, dim=1) == y).cpu())
                 metric = BinaryAccuracy(multidim_average='samplewise')
                 accuracy = metric(torch.sigmoid(out), y).cpu()
-                total['correct'].append(accuracy >= 1.0)
+                if len(accuracy >= 1.0) > 0:
+                    total['correct'].append(accuracy >= 1.0)
 
             elif cfg['metric'] == 'roc_auc':
                 # Assume that y = 1 is positive
