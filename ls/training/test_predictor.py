@@ -2,6 +2,7 @@ import torch
 from torch.utils.data import Dataset, Subset, DataLoader
 from sklearn.metrics import roc_auc_score
 from torchmetrics.classification import BinaryAccuracy
+from ls.utils.print import print
 
 
 def test_predictor(data: Dataset = None,
